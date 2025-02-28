@@ -34,7 +34,7 @@ export function ModelSelector() {
           >Gemini 2.0 Flash</span
         >
         <button
-          class="bg-transparent border-none cursor-pointer text-gray-400 hover:text-gray-600 flex items-center"
+          class="bg-transparent border-none cursor-pointer text-gray-400 hover:text-gray-600 @dark:hover:text-gray-300 flex items-center"
         >
           <iconify-icon icon="mdi:chevron-down" width="20"></iconify-icon>
         </button>
@@ -42,13 +42,13 @@ export function ModelSelector() {
 
       <div
         id="model-dropdown"
-        class="hidden absolute right-0 bottom-full mb-2 w-72 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
+        class="hidden absolute right-0 bottom-full mb-2 w-72 rounded-lg bg-white @dark:bg-black shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
       >
         <div class="p-2 space-y-1">
           ${AVAILABLE_MODELS.map(
             (model) => html`
               <button
-                class="group flex w-full rounded-md px-3 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                class="group flex w-full rounded-md px-3 py-2 text-sm text-left text-gray-700 @dark:text-gray-200 hover:bg-gray-100 @dark:hover:bg-gray-800 hover:text-gray-900 @dark:hover:text-gray-100"
                 data-model-id="${model.id}"
               >
                 <div class="flex-1">

@@ -52,11 +52,9 @@ export async function Home() {
           margin-left: auto;
           background-color: hsla(0, 0%, 0%, 0.05);
         }
-
         .model-message {
           margin-right: auto;
         }
-
         #chat-container {
           display: none;
         }
@@ -71,6 +69,12 @@ export async function Home() {
 
         #api-key-container.active {
           display: block;
+        }
+
+        @media (prefers-color-scheme: dark) {
+          .user-message {
+            background-color: hsla(0, 0%, 100%, 0.25);
+          }
         }
       </style>
       <script
