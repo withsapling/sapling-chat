@@ -86,7 +86,7 @@ export async function Home() {
       <script type="module" src="/chat.js"></script>`,
     children: html`
       <div id="api-key-container">${ApiKeyInput()}</div>
-      <div id="chat-container" class="flex flex-col min-h-screen">
+      <div id="chat-container" class="flex flex-col min-h-[100dvh]">
         <template>
           <div aria-hidden="true" class="prose prose-sm max-w-none"></div>
         </template>
