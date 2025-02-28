@@ -11,7 +11,7 @@ export function ApiKeyInput() {
           To use this chat interface, you'll need to provide your own Gemini API
           key. You can get one from the
           <a
-            href="https://makersuite.google.com/app/apikey"
+            href="https://aistudio.google.com/app/apikey"
             class="text-blue-600 hover:underline"
             target="_blank"
             rel="noopener noreferrer"
