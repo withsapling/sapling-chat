@@ -5,7 +5,9 @@ import { ApiKeyInput } from "../components/ApiKeyInput.ts";
 
 export async function Home() {
   return await Layout({
-    head: html` <style>
+    title: "Sapling Chat",
+    description: "An open source chat app built with Sapling",
+    head: html`<style>
         .typing-indicator {
           display: none;
         }
