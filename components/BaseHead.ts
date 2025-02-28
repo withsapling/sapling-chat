@@ -9,6 +9,7 @@ export function BaseHead({
     <meta name="description" content="${description}" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:image" content="/social.png" />
+    <meta name="theme-color" content="#000" />
     <script
       src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"
       defer
