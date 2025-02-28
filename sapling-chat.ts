@@ -8,7 +8,6 @@ export class SaplingChat {
   constructor(options: { apiKey?: string; model?: string } = {}) {
     this.apiKey = options.apiKey || Deno.env.get("GEMINI_API_KEY") || "";
     this.currentModel = options.model || "gemini-2.0-flash-lite";
-    console.log("Sapling model:", this.currentModel);
     if (!this.apiKey) {
       console.warn("No API key provided. Please provide a Gemini API key.");
     }
