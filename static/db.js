@@ -16,41 +16,18 @@ export class ChatDB {
       console.log("Secure context:", isSecureContext);
       console.log("Current origin:", window.location.origin);
 
-      // Request persistence with more robust error handling
+      // Request persistence first
       if (navigator.storage && navigator.storage.persist) {
-        try {
-          // First check if already persisted
-          let isPersisted = await navigator.storage.persisted();
+        const isPersisted = await navigator.storage.persist();
+        console.log(`Storage persistence granted:`, isPersisted);
 
-          if (!isPersisted) {
-            // If not persisted, request it
-            isPersisted = await navigator.storage.persist();
-            console.log(`Storage persistence request result:`, isPersisted);
-          }
+        // Check current persistence state
+        const persistState = await navigator.storage.persisted();
+        console.log("Current storage persistence state:", persistState);
 
-          if (!isPersisted) {
-            // If still not persisted, show warning to user
-            const warning = document.createElement("div");
-            warning.style.cssText =
-              "position: fixed; top: 0; left: 50%; transform: translateX(-50%); background: #fff3cd; color: #856404; padding: 8px 16px; border-radius: 4px; z-index: 1000; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin: 8px;";
-            warning.textContent =
-              "⚠️ Chat history may not persist between sessions due to browser storage limitations";
-            document.body.appendChild(warning);
-            setTimeout(() => warning.remove(), 5000);
-          }
-
-          // Get storage estimate
-          const estimate = await navigator.storage.estimate();
-          const usedPercentage = (
-            (estimate.usage / estimate.quota) *
-            100
-          ).toFixed(2);
-          console.log(
-            `Storage estimate - Used: ${usedPercentage}% (${estimate.usage} bytes / ${estimate.quota} bytes)`
-          );
-        } catch (storageError) {
-          console.warn("Storage persistence request failed:", storageError);
-        }
+        // Check storage estimate
+        const estimate = await navigator.storage.estimate();
+        console.log("Storage estimate:", estimate);
       }
 
       return new Promise((resolve, reject) => {
