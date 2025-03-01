@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Function to send a message to the API
   async function sendMessage(message) {
-    if (!message.trim()) return;
+    if (!message || !message.trim()) return;
 
     const apiKey = localStorage.getItem("gemini_api_key");
     if (!apiKey) {
@@ -193,7 +193,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Event listeners
   sendButton.addEventListener("click", () => {
-    const message = messageInput.value;
+    const message = messageInput.value.trim();
+    if (!message) return; // Don't send empty messages
     sendMessage(message);
     messageInput.value = "";
   });
@@ -201,6 +202,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   messageInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
+      const message = messageInput.value.trim();
+      if (!message) return; // Don't send empty messages
       sendButton.click();
     }
   });
