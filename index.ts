@@ -6,7 +6,7 @@ import { SaplingChat } from "./sapling-chat.ts";
 const site = new Sapling({
   // this will disable caching for static files in development
   // it is automatically passed in when you run deno task dev
-  dev: Deno.env.get("ENV") === "development",
+  // dev: Deno.env.get("ENV") === "development",
 });
 
 // Map to store SaplingChat instances for each API key
@@ -121,6 +121,7 @@ site.get(
   "/scripts/*",
   serveStatic({
     root: "./static/scripts",
+    urlPrefix: "/scripts",
     cacheControl: "no-cache, no-store, must-revalidate",
   })
 );
