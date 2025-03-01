@@ -120,12 +120,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Add user message to chat and database
     addMessage(message, true);
+    let chat = await db.getChat(chatId);
+    if (!chat) {
+      // Create the chat if it doesn't exist
+      chat = {
+        id: chatId,
+        messages: [],
+        timestamp: Date.now(),
+        title: "New Chat",
+      };
+      await db.updateChat(chatId, chat);
+    }
     await db.updateChat(chatId, {
-      messages: (
-        await db.getChat(chatId)
-      )?.messages.concat([{ text: message, isUser: true }]) || [
-        { text: message, isUser: true },
-      ],
+      messages: chat.messages.concat([{ text: message, isUser: true }]),
     });
 
     messageInput.style.height = "auto";
@@ -168,17 +175,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
 
       // Save model response to database
+      chat = await db.getChat(chatId);
       await db.updateChat(chatId, {
-        messages: (
-          await db.getChat(chatId)
-        )?.messages.concat([{ text: accumulatedText, isUser: false }]) || [
+        messages: chat.messages.concat([
           { text: accumulatedText, isUser: false },
-        ],
+        ]),
       });
 
       // Update chat title if it's still "New Chat"
-      const chat = await db.getChat(chatId);
-      if (chat && chat.title === "New Chat") {
+      if (chat.title === "New Chat") {
         await db.updateChat(chatId, {
           title: message.slice(0, 50) + (message.length > 50 ? "..." : ""),
         });
