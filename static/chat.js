@@ -45,8 +45,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   const chat = await db.getChat(chatId);
   console.log("Initial chat load:", chat);
 
-  if (chat && chat.messages && chat.messages.length > 0) {
+  if (!chat) {
+    console.log("No chat found with ID:", chatId);
+    // Redirect to home page if chat doesn't exist
+    window.location.href = "/";
+    return;
+  }
+
+  if (chat.messages && chat.messages.length > 0) {
     console.log("Loading messages:", chat.messages);
+    // Clear any existing messages first
+    while (chatMessages.children.length > 1) {
+      chatMessages.removeChild(chatMessages.children[0]);
+    }
+    // Add messages in order
     chat.messages.forEach((msg) => {
       addMessage(msg.text, msg.isUser);
     });

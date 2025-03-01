@@ -41,8 +41,24 @@ export class ChatListComponent extends LitElement {
   }
 
   async handleNewChat() {
-    const chat = await this.db.createChat();
-    window.location.href = `/chat/${chat.id}`;
+    try {
+      // Create a new chat and wait for it to complete
+      const chat = await this.db.createChat();
+
+      // Ensure the chat was created successfully
+      if (!chat || !chat.id) {
+        console.error("Failed to create new chat");
+        return;
+      }
+
+      // Force a reload of the chats list
+      await this.loadChats();
+
+      // Navigate to the new chat page
+      window.location.href = `/chat/${chat.id}`;
+    } catch (error) {
+      console.error("Error creating new chat:", error);
+    }
   }
 
   render() {

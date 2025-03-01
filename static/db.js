@@ -91,11 +91,17 @@ export class ChatDB {
 
     return new Promise((resolve, reject) => {
       const transaction = this.db.transaction([CHATS_STORE], "readwrite");
-      const store = transaction.objectStore(CHATS_STORE);
-      const request = store.add(chat);
 
-      request.onerror = () => reject(request.error);
-      request.onsuccess = () => resolve(chat);
+      transaction.oncomplete = () => {
+        resolve(chat);
+      };
+
+      transaction.onerror = () => {
+        reject(transaction.error);
+      };
+
+      const store = transaction.objectStore(CHATS_STORE);
+      store.add(chat);
     });
   }
 
@@ -115,12 +121,18 @@ export class ChatDB {
     await this.init();
     return new Promise((resolve, reject) => {
       const transaction = this.db.transaction([CHATS_STORE], "readwrite");
-      const store = transaction.objectStore(CHATS_STORE);
 
-      // First get the existing chat
+      transaction.oncomplete = () => {
+        resolve(updates);
+      };
+
+      transaction.onerror = () => {
+        reject(transaction.error);
+      };
+
+      const store = transaction.objectStore(CHATS_STORE);
       const getRequest = store.get(id);
 
-      getRequest.onerror = () => reject(getRequest.error);
       getRequest.onsuccess = () => {
         const existingChat = getRequest.result || {
           id,
@@ -129,20 +141,14 @@ export class ChatDB {
           title: "New Chat",
         };
 
-        // Create a new chat object with the updates
         const updatedChat = {
           ...existingChat,
           ...updates,
-          // Ensure messages array is properly handled
           messages: updates.messages || existingChat.messages || [],
-          // Update timestamp on every change
           timestamp: Date.now(),
         };
 
-        // Put the updated chat back in the store
-        const putRequest = store.put(updatedChat);
-        putRequest.onerror = () => reject(putRequest.error);
-        putRequest.onsuccess = () => resolve(updatedChat);
+        store.put(updatedChat);
       };
     });
   }
