@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     "#chat-messages .max-w-screen-md"
   );
   const messageInput = document.getElementById("message-input");
-  const sendButton = document.getElementById("send-button");
   const resetChatButton = document.getElementById("reset-chat");
   const typingIndicator = document.getElementById("typing-indicator");
 
@@ -19,7 +18,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (
     !chatMessages ||
     !messageInput ||
-    !sendButton ||
     !typingIndicator ||
     !chatContainer ||
     !apiKeyContainer ||
@@ -59,17 +57,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const updateInputState = () => {
     messageInput.style.height = "auto";
     messageInput.style.height = messageInput.scrollHeight + "px";
-    const hasValue = messageInput.value.trim().length > 0;
-    console.log("Input value:", messageInput.value, "Has value:", hasValue);
-    sendButton.disabled = !hasValue;
   };
 
   // Add input event listener for all devices
   messageInput.addEventListener("input", updateInputState);
-  // Add more event listeners for mobile devices
-  messageInput.addEventListener("keyup", updateInputState);
-  messageInput.addEventListener("change", updateInputState);
-  messageInput.addEventListener("paste", updateInputState);
+
   // Force initial state update
   updateInputState();
 
@@ -173,8 +165,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       addMessage(`Error: ${error.message}`, false);
     } finally {
       typingIndicator.style.display = "none";
-      // Reset the submit button state based on input value
-      sendButton.disabled = !messageInput.value.trim();
     }
   }
 
@@ -209,8 +199,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const message = messageInput.value;
     sendMessage(message);
     messageInput.value = "";
-    // Update button state after clearing input
-    sendButton.disabled = true;
   });
 
   messageInput.addEventListener("keypress", (e) => {
