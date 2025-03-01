@@ -2,6 +2,7 @@ import { html } from "@sapling/sapling";
 import Layout from "../layouts/Layout.ts";
 import { ChatInput } from "../components/ChatInput.ts";
 import { ApiKeyInput } from "../components/ApiKeyInput.ts";
+import { Logo } from "../components/Logo.ts";
 
 export async function Home() {
   return await Layout({
@@ -85,10 +86,7 @@ export async function Home() {
           }
         }
       </style>
-      <script
-        type="module"
-        src="https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js"
-      ></script>
+
       <script type="module" src="/chat.js"></script>
     `,
     children: html`
@@ -98,15 +96,12 @@ export async function Home() {
         <div id="chat-container" class="flex-col min-h-[calc(100dvh-100px)]">
           <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-bold">Chat</h1>
-            <template>
+            <template id="logo-template">
               <div
-                aria-hidden="true"
-                class="message flex-1 message-container flex items-start gap-4 w-full prose prose-sm max-w-none"
-              ></div>
-              <div
-                aria-hidden="true"
-                class="flex-shrink-0 mt-2 bg-gray-100 @dark:bg-gray-900 border border-gray-200 @dark:border-gray-800 rounded-full p-2"
-              ></div>
+                class="flex-shrink-0 bg-gray-100 @dark:bg-gray-900 border border-gray-200 @dark:border-gray-800 rounded-full p-2"
+              >
+                ${Logo({ width: 18, height: 18 })}
+              </div>
             </template>
             <div class="flex items-center space-x-2">
               <button
