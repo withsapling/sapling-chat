@@ -10,29 +10,73 @@ export class ChatDB {
   async init() {
     if (this.db) return;
 
-    // Request persistence
-    if (navigator.storage && navigator.storage.persist) {
-      const isPersisted = await navigator.storage.persist();
-      console.log(`Persisted storage granted: ${isPersisted}`);
+    try {
+      // Check if we're in a secure context
+      const isSecureContext = window.isSecureContext;
+      console.log("Secure context:", isSecureContext);
+      console.log("Current origin:", window.location.origin);
+
+      // Request persistence first
+      if (navigator.storage && navigator.storage.persist) {
+        const isPersisted = await navigator.storage.persist();
+        console.log(`Storage persistence granted:`, isPersisted);
+
+        // Check current persistence state
+        const persistState = await navigator.storage.persisted();
+        console.log("Current storage persistence state:", persistState);
+
+        // Check storage estimate
+        const estimate = await navigator.storage.estimate();
+        console.log("Storage estimate:", estimate);
+      }
+
+      return new Promise((resolve, reject) => {
+        console.log("Opening IndexedDB:", DB_NAME, "version:", DB_VERSION);
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+        request.onerror = (event) => {
+          console.error("IndexedDB error:", event.target.error);
+          reject(request.error);
+        };
+
+        request.onsuccess = (event) => {
+          this.db = event.target.result;
+
+          // Log database info
+          console.log("IndexedDB opened successfully:", {
+            name: this.db.name,
+            version: this.db.version,
+            objectStoreNames: Array.from(this.db.objectStoreNames),
+          });
+
+          // Add error handler for database
+          this.db.onerror = (event) => {
+            console.error("Database error:", event.target.error);
+          };
+
+          resolve();
+        };
+
+        request.onupgradeneeded = (event) => {
+          console.log("Database upgrade needed");
+          const db = event.target.result;
+          if (!db.objectStoreNames.contains(CHATS_STORE)) {
+            const store = db.createObjectStore(CHATS_STORE, { keyPath: "id" });
+            store.createIndex("timestamp", "timestamp", { unique: false });
+            console.log("Created chats store with timestamp index");
+          }
+        };
+
+        request.onblocked = (event) => {
+          console.warn(
+            "Database upgrade blocked. Please close other tabs running the app."
+          );
+        };
+      });
+    } catch (error) {
+      console.error("Critical database error:", error);
+      throw error;
     }
-
-    return new Promise((resolve, reject) => {
-      const request = indexedDB.open(DB_NAME, DB_VERSION);
-
-      request.onerror = () => reject(request.error);
-      request.onsuccess = () => {
-        this.db = request.result;
-        resolve();
-      };
-
-      request.onupgradeneeded = (event) => {
-        const db = event.target.result;
-        if (!db.objectStoreNames.contains(CHATS_STORE)) {
-          const store = db.createObjectStore(CHATS_STORE, { keyPath: "id" });
-          store.createIndex("timestamp", "timestamp", { unique: false });
-        }
-      };
-    });
   }
 
   async createChat() {
