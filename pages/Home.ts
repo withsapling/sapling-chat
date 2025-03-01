@@ -96,6 +96,9 @@ export async function Home() {
         <div id="chat-container" class="flex-col min-h-[calc(100dvh-100px)]">
           <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-bold">Chat</h1>
+            <template>
+              <div class="prose prose-sm max-w-none"></div>
+            </template>
             <template id="logo-template">
               <div
                 class="flex-shrink-0 bg-gray-100 @dark:bg-gray-900 border border-gray-200 @dark:border-gray-800 rounded-full p-2"
@@ -103,6 +106,7 @@ export async function Home() {
                 ${Logo({ width: 18, height: 18 })}
               </div>
             </template>
+
             <div class="flex items-center space-x-2">
               <button
                 id="reset-chat"
