@@ -55,13 +55,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // Auto-resize textarea as user types
-  messageInput.addEventListener("input", function () {
-    this.style.height = "auto";
-    this.style.height = this.scrollHeight + "px";
-    // Enable/disable send button based on input value
-    sendButton.disabled = !this.value.trim();
-  });
+  // Function to update button state and textarea height
+  const updateInputState = () => {
+    messageInput.style.height = "auto";
+    messageInput.style.height = messageInput.scrollHeight + "px";
+    sendButton.disabled = !messageInput.value.trim();
+  };
+
+  // Add both input and keyup event listeners for better mobile support
+  messageInput.addEventListener("input", updateInputState);
+  messageInput.addEventListener("keyup", updateInputState);
 
   // Function to add a message to the chat
   function addMessage(text, isUser = false) {
