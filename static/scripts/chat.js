@@ -14,6 +14,21 @@ function fileToBase64(file) {
   });
 }
 
+// Function to save chat history to localStorage
+function saveChatHistory(message, isUser = true) {
+  const history = JSON.parse(localStorage.getItem("chat_history") || "[]");
+  history.push({
+    role: isUser ? "user" : "model",
+    parts: [{ text: message }],
+  });
+  localStorage.setItem("chat_history", JSON.stringify(history));
+}
+
+// Function to load chat history from localStorage
+function loadChatHistory() {
+  return JSON.parse(localStorage.getItem("chat_history") || "[]");
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   const chatContainer = document.getElementById("chat-container");
   const apiKeyContainer = document.getElementById("api-key-container");
@@ -63,6 +78,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   const storedApiKey = localStorage.getItem("gemini_api_key");
   if (storedApiKey) {
     chatContainer.classList.add("active");
+
+    // Load and display chat history
+    const history = loadChatHistory();
+    history.forEach((message) => {
+      addMessage(message.parts[0].text, [], message.role === "user");
+    });
   } else {
     apiKeyContainer.classList.add("active");
   }
@@ -152,8 +173,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Convert images to base64
     const imageData = await Promise.all(selectedImages.map(fileToBase64));
 
-    // Add message to chat with images
+    // Add message to chat with images and save to history
     addMessage(message, imageData, true);
+    saveChatHistory(message, true);
     messageInput.style.height = "auto";
     typingIndicator.style.display = "block";
 
@@ -168,6 +190,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         body: JSON.stringify({
           message,
           images: imageData,
+          history: loadChatHistory(), // Send chat history with the request
         }),
       });
 
@@ -195,6 +218,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         accumulatedText += text;
         contentDiv.innerHTML = marked.parse(accumulatedText);
       }
+
+      // Save the model's response to history
+      saveChatHistory(accumulatedText, false);
 
       // Clear images after successful send
       selectedImages = [];
@@ -226,6 +252,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       while (chatMessages.children.length > 1) {
         chatMessages.removeChild(chatMessages.children[0]);
       }
+
+      // Clear chat history from localStorage
+      localStorage.removeItem("chat_history");
 
       console.log("Chat reset successfully");
     } catch (error) {

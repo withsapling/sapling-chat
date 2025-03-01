@@ -60,7 +60,20 @@ site.post("/api/chat/message", async (c: Context) => {
   const saplingChat = await requireApiKey(c);
   if (saplingChat instanceof Response) return saplingChat;
 
-  const body = (await c.req.json()) as { message?: string; images?: string[] };
+  const body = (await c.req.json()) as {
+    message?: string;
+    images?: string[];
+    history?: Array<{
+      role: string;
+      parts: Array<{
+        text?: string;
+        inlineData?: {
+          data: string;
+          mimeType: string;
+        };
+      }>;
+    }>;
+  };
 
   // Type check the request body
   if (
@@ -77,7 +90,12 @@ site.post("/api/chat/message", async (c: Context) => {
     );
   }
 
-  const { message = "", images } = body;
+  const { message = "", images, history } = body;
+
+  // Initialize chat with history if provided
+  if (history) {
+    await saplingChat.init(history);
+  }
 
   // Use streaming response
   const stream = await saplingChat.chatStream(message, images);

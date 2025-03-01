@@ -53,6 +53,10 @@ export async function Home() {
           word-break: break-word;
         }
 
+        .prose > :first-child {
+          margin-top: 0;
+        }
+
         .user-message {
           max-width: fit-content;
           padding: 0.625rem 1.25rem;

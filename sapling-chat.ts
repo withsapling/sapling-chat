@@ -6,14 +6,16 @@ interface MessagePart {
   };
 }
 
+interface ChatMessage {
+  role: string;
+  parts: MessagePart[];
+}
+
 export class SaplingChat {
   private chatModel: any;
   private model: any;
 
-  private history: Array<{
-    role: string;
-    parts: MessagePart[];
-  }> = [];
+  private history: ChatMessage[] = [];
 
   private apiKey: string;
   private currentModel: string;
@@ -29,7 +31,7 @@ export class SaplingChat {
   /**
    * Initialize the chat model
    */
-  async init() {
+  async init(initialHistory?: ChatMessage[]) {
     if (!this.apiKey) {
       throw new Error("No API key provided. Please provide a Gemini API key.");
     }
@@ -39,8 +41,8 @@ export class SaplingChat {
       const genAI = new GoogleGenerativeAI(this.apiKey);
       this.model = genAI.getGenerativeModel({ model: this.currentModel });
 
-      // Initialize chat with default history
-      this.history = [
+      // Initialize chat with provided history or default history
+      this.history = initialHistory || [
         {
           role: "user",
           parts: [{ text: "Hello" }],
