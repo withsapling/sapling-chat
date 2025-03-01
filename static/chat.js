@@ -66,6 +66,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Add input event listener for all devices
   messageInput.addEventListener("input", updateInputState);
+  // Add more event listeners for mobile devices
+  messageInput.addEventListener("keyup", updateInputState);
+  messageInput.addEventListener("change", updateInputState);
+  messageInput.addEventListener("paste", updateInputState);
+  // Force initial state update
+  updateInputState();
 
   // Function to add a message to the chat
   function addMessage(text, isUser = false) {
