@@ -86,8 +86,7 @@ export async function Home() {
           }
         }
       </style>
-
-      <script type="module" src="/chat.js"></script>
+      <script type="module" src="/scripts/chat.js"></script>
     `,
     children: html`
       <div class="max-w-screen-md mx-auto p-4">
