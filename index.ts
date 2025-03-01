@@ -1,6 +1,7 @@
 import { Sapling, serveStatic, type Context } from "@sapling/sapling";
 import NotFoundLayout from "./layouts/NotFoundLayout.ts";
 import { Home } from "./pages/Home.ts";
+import { Chat } from "./pages/Chat.ts";
 import { SaplingChat } from "./sapling-chat.ts";
 
 const site = new Sapling({
@@ -107,22 +108,14 @@ site.post("/api/chat/message", async (c: Context) => {
 
 // Set up the home page as the default route
 site.get("/", async (c: Context) => c.html(await Home()));
-
-// API endpoint to get chat history
-site.get("/api/chat/history", async (c: Context) => {
-  const inturn = await requireApiKey(c);
-  if (inturn instanceof Response) return inturn;
-
-  return c.json({ history: inturn.getHistory() });
-});
-
-// API endpoint to reset chat
-site.post("/api/chat/reset", async (c: Context) => {
-  const inturn = await requireApiKey(c);
-  if (inturn instanceof Response) return inturn;
-
-  await inturn.resetChat();
-  return c.json({ success: true });
+site.get("/chat", (c: Context) => c.redirect("/"));
+// Set up the chat page route
+site.get("/chat/:id", async (c: Context) => {
+  const id = c.req.param("id");
+  if (!id) {
+    return c.redirect("/");
+  }
+  return c.html(await Chat({ params: { id } }));
 });
 
 // Serve static files

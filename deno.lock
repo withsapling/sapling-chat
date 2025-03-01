@@ -880,6 +880,7 @@
     }
   },
   "remote": {
+    "https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js": "65a540523226c59100a9f8c72c7c0af4d85c79fb80cabc14a1186af007428645",
     "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js": "7a7d9a521ac9384e0c3a075120a7c486cbd0c3c32cc5601bbb79a23e97403690"
   },
   "workspace": {

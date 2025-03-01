@@ -58,19 +58,19 @@ export function Nav() {
             </a>
           </div>
 
-          <!-- Navigation Links -->
+          <!-- Navigation Links 
           <div class="flex items-center space-x-4">
             <button
-              id="reset-chat"
-              class="flex items-center bg-gray-100 p-2 rounded-full text-sm font-medium transition-colors"
+              id="new-chat-button"
+              class="flex items-center bg-gray-100 p-2 rounded-full text-sm font-medium transition-colors hover:bg-gray-200"
             >
               <iconify-icon
                 class="text-black"
-                icon="mdi:edit-outline"
+                icon="mdi:plus"
                 width="20"
               ></iconify-icon>
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
     </nav>

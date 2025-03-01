@@ -1,7 +1,8 @@
 import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 import { ModelSelector } from "./modelSelector.js";
+import { ChatDB } from "./db.js";
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const chatContainer = document.getElementById("chat-container");
   const apiKeyContainer = document.getElementById("api-key-container");
   const apiKeyForm = document.getElementById("api-key-form");
@@ -12,9 +13,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const sendButton = document.getElementById("send-button");
   const resetChatButton = document.getElementById("reset-chat");
   const typingIndicator = document.getElementById("typing-indicator");
+  const chatId = chatContainer?.dataset.chatId;
 
-  // Initialize model selector
+  // Initialize model selector and database
   const modelSelector = new ModelSelector();
+  const db = new ChatDB();
+  await db.init();
 
   if (
     !chatMessages ||
@@ -23,7 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
     !typingIndicator ||
     !chatContainer ||
     !apiKeyContainer ||
-    !apiKeyForm
+    !apiKeyForm ||
+    !chatId
   ) {
     console.error("Required elements not found");
     return;
@@ -40,6 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const storedApiKey = localStorage.getItem("gemini_api_key");
   if (storedApiKey) {
     chatContainer.classList.add("active");
+    // Load existing chat messages
+    const chat = await db.getChat(chatId);
+    if (chat) {
+      chat.messages.forEach((msg) => {
+        addMessage(msg.text, msg.isUser);
+      });
+    }
   } else {
     apiKeyContainer.classList.add("active");
   }
@@ -106,7 +118,16 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // Add user message to chat and database
     addMessage(message, true);
+    await db.updateChat(chatId, {
+      messages: (
+        await db.getChat(chatId)
+      )?.messages.concat([{ text: message, isUser: true }]) || [
+        { text: message, isUser: true },
+      ],
+    });
+
     messageInput.style.height = "auto";
     typingIndicator.style.display = "block";
 
@@ -145,6 +166,23 @@ document.addEventListener("DOMContentLoaded", () => {
         accumulatedText += text;
         contentDiv.innerHTML = marked.parse(accumulatedText);
       }
+
+      // Save model response to database
+      await db.updateChat(chatId, {
+        messages: (
+          await db.getChat(chatId)
+        )?.messages.concat([{ text: accumulatedText, isUser: false }]) || [
+          { text: accumulatedText, isUser: false },
+        ],
+      });
+
+      // Update chat title if it's still "New Chat"
+      const chat = await db.getChat(chatId);
+      if (chat && chat.title === "New Chat") {
+        await db.updateChat(chatId, {
+          title: message.slice(0, 50) + (message.length > 50 ? "..." : ""),
+        });
+      }
     } catch (error) {
       console.error("Error sending message:", error);
       addMessage(`Error: ${error.message}`, false);
@@ -171,6 +209,12 @@ document.addEventListener("DOMContentLoaded", () => {
       while (chatMessages.children.length > 2) {
         chatMessages.removeChild(chatMessages.children[1]);
       }
+
+      // Clear chat messages in database
+      await db.updateChat(chatId, {
+        messages: [],
+        title: "New Chat",
+      });
 
       console.log("Chat reset successfully");
     } catch (error) {
