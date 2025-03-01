@@ -25,6 +25,6 @@ export default async function Layout(props: BaseLayoutProps) {
     bodyClass: `font-sans @dark:bg-black @dark:text-white ${
       props.bodyClass ?? ``
     }`,
-    children: html` ${Nav()} ${props.children} `,
+    children: html`${props.children} `,
   });
 }
