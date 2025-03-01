@@ -129,10 +129,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         timestamp: Date.now(),
         title: "New Chat",
       };
-      await db.updateChat(chatId, chat);
     }
+
+    // Add the user message
+    const updatedMessages = [
+      ...(chat.messages || []),
+      { text: message, isUser: true },
+    ];
     await db.updateChat(chatId, {
-      messages: chat.messages.concat([{ text: message, isUser: true }]),
+      ...chat,
+      messages: updatedMessages,
     });
 
     messageInput.style.height = "auto";
@@ -176,18 +182,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       // Save model response to database
       chat = await db.getChat(chatId);
+      const finalMessages = [
+        ...(chat.messages || []),
+        { text: accumulatedText, isUser: false },
+      ];
       await db.updateChat(chatId, {
-        messages: chat.messages.concat([
-          { text: accumulatedText, isUser: false },
-        ]),
+        messages: finalMessages,
+        // Update title if it's still "New Chat"
+        ...(chat.title === "New Chat"
+          ? {
+              title: message.slice(0, 50) + (message.length > 50 ? "..." : ""),
+            }
+          : {}),
       });
-
-      // Update chat title if it's still "New Chat"
-      if (chat.title === "New Chat") {
-        await db.updateChat(chatId, {
-          title: message.slice(0, 50) + (message.length > 50 ? "..." : ""),
-        });
-      }
     } catch (error) {
       console.error("Error sending message:", error);
       addMessage(`Error: ${error.message}`, false);

@@ -72,14 +72,33 @@ export class ChatDB {
     return new Promise((resolve, reject) => {
       const transaction = this.db.transaction([CHATS_STORE], "readwrite");
       const store = transaction.objectStore(CHATS_STORE);
-      const request = store.get(id);
 
-      request.onerror = () => reject(request.error);
-      request.onsuccess = () => {
-        const chat = { ...request.result, ...updates };
-        const updateRequest = store.put(chat);
-        updateRequest.onerror = () => reject(updateRequest.error);
-        updateRequest.onsuccess = () => resolve(chat);
+      // First get the existing chat
+      const getRequest = store.get(id);
+
+      getRequest.onerror = () => reject(getRequest.error);
+      getRequest.onsuccess = () => {
+        const existingChat = getRequest.result || {
+          id,
+          messages: [],
+          timestamp: Date.now(),
+          title: "New Chat",
+        };
+
+        // Create a new chat object with the updates
+        const updatedChat = {
+          ...existingChat,
+          ...updates,
+          // Ensure messages array is properly handled
+          messages: updates.messages || existingChat.messages || [],
+          // Update timestamp on every change
+          timestamp: Date.now(),
+        };
+
+        // Put the updated chat back in the store
+        const putRequest = store.put(updatedChat);
+        putRequest.onerror = () => reject(putRequest.error);
+        putRequest.onsuccess = () => resolve(updatedChat);
       };
     });
   }
