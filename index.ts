@@ -6,7 +6,7 @@ import { SaplingChat } from "./sapling-chat.ts";
 const site = new Sapling({
   // this will disable caching for static files in development
   // it is automatically passed in when you run deno task dev
-  dev: true,
+  dev: Deno.env.get("ENV") === "development",
 });
 
 // Map to store SaplingChat instances for each API key
@@ -116,6 +116,14 @@ site.post("/api/chat/reset", async (c: Context) => {
 
 // Set up the home page as the default route
 site.get("/", async (c: Context) => c.html(await Home()));
+
+site.get(
+  "/scripts/*",
+  serveStatic({
+    root: "./static/scripts",
+    cacheControl: "no-cache, no-store, must-revalidate",
+  })
+);
 
 // Serve static files
 // The location of this is important. It should be the last route you define.
