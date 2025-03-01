@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const chatMessages = document.querySelector(
     "#chat-messages .max-w-screen-md"
   );
+  const sendButton = document.getElementById("send-button");
   const messageInput = document.getElementById("message-input");
   const resetChatButton = document.getElementById("reset-chat");
   const typingIndicator = document.getElementById("typing-indicator");
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (
     !chatMessages ||
     !messageInput ||
+    !sendButton ||
     !typingIndicator ||
     !chatContainer ||
     !apiKeyContainer ||
@@ -122,8 +124,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     addMessage(message, true);
     messageInput.style.height = "auto";
     typingIndicator.style.display = "block";
-    // Reset the submit button state
-    sendButton.disabled = true;
 
     try {
       const response = await fetch("/api/chat/message", {
