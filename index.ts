@@ -60,25 +60,27 @@ site.post("/api/chat/message", async (c: Context) => {
   const saplingChat = await requireApiKey(c);
   if (saplingChat instanceof Response) return saplingChat;
 
-  const body = await c.req.json();
+  const body = (await c.req.json()) as { message?: string; images?: string[] };
 
   // Type check the request body
   if (
     typeof body !== "object" ||
     body === null ||
-    !("message" in body) ||
-    typeof body.message !== "string"
+    (typeof body.message !== "string" && !Array.isArray(body.images))
   ) {
     return c.json(
-      { error: "Invalid request. Expected { message: string }" },
+      {
+        error:
+          "Invalid request. Expected { message?: string, images?: string[] }",
+      },
       400
     );
   }
 
-  const { message } = body;
+  const { message = "", images } = body;
 
   // Use streaming response
-  const stream = await saplingChat.chatStream(message);
+  const stream = await saplingChat.chatStream(message, images);
 
   // Set up streaming response
   const encoder = new TextEncoder();

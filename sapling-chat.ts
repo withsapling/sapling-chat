@@ -1,7 +1,20 @@
+interface MessagePart {
+  text?: string;
+  inlineData?: {
+    data: string;
+    mimeType: string;
+  };
+}
+
 export class SaplingChat {
   private chatModel: any;
   private model: any;
-  private history: Array<{ role: string; parts: Array<{ text: string }> }> = [];
+
+  private history: Array<{
+    role: string;
+    parts: MessagePart[];
+  }> = [];
+
   private apiKey: string;
   private currentModel: string;
 
@@ -104,22 +117,43 @@ export class SaplingChat {
   /**
    * Send a message to the chat and get a streaming response
    * @param message The message to send
+   * @param images Optional array of base64 encoded images
    * @returns A stream of response chunks
    */
-  async chatStream(message: string) {
+  async chatStream(message: string, images?: string[]) {
     if (!this.chatModel) {
       await this.init();
     }
 
     try {
+      // Prepare the content parts array
+      const parts: MessagePart[] = [];
+
+      // Add images if present
+      if (images?.length) {
+        parts.push(
+          ...images.map((img) => ({
+            inlineData: {
+              data: img.split(",")[1], // Remove the data URL prefix
+              mimeType: "image/jpeg",
+            },
+          }))
+        );
+      }
+
+      // Add the text message if present
+      if (message?.trim()) {
+        parts.push({ text: message });
+      }
+
       // Add user message to history
       this.history.push({
         role: "user",
-        parts: [{ text: message }],
+        parts,
       });
 
       // Send message to model and get streaming response
-      const result = await this.chatModel.sendMessageStream(message);
+      const result = await this.chatModel.sendMessageStream(parts);
 
       // We'll collect the full response to add to history after streaming
       let fullResponse = "";

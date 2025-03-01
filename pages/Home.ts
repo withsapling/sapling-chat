@@ -106,6 +106,15 @@ export async function Home() {
               </div>
             </template>
 
+            <template id="message-images-template">
+              <div class="flex gap-2 mb-2">
+                <img
+                  class="h-24 w-24 object-cover rounded-sm"
+                  alt="Attached image"
+                />
+              </div>
+            </template>
+
             <div class="flex items-center space-x-2">
               <button
                 id="reset-chat"
