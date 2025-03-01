@@ -41,17 +41,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     sanitize: true,
   });
 
+  // Load existing chat messages first, regardless of API key
+  const chat = await db.getChat(chatId);
+  console.log("Initial chat load:", chat);
+
+  if (chat && chat.messages && chat.messages.length > 0) {
+    console.log("Loading messages:", chat.messages);
+    chat.messages.forEach((msg) => {
+      addMessage(msg.text, msg.isUser);
+    });
+  }
+
   // Check for stored API key and show appropriate interface
   const storedApiKey = localStorage.getItem("gemini_api_key");
   if (storedApiKey) {
     chatContainer.classList.add("active");
-    // Load existing chat messages
-    const chat = await db.getChat(chatId);
-    if (chat) {
-      chat.messages.forEach((msg) => {
-        addMessage(msg.text, msg.isUser);
-      });
-    }
   } else {
     apiKeyContainer.classList.add("active");
   }
@@ -121,6 +125,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Add user message to chat and database
     addMessage(message, true);
     let chat = await db.getChat(chatId);
+    console.log("Before update - Current chat:", chat);
+
     if (!chat) {
       // Create the chat if it doesn't exist
       chat = {
@@ -136,10 +142,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       ...(chat.messages || []),
       { text: message, isUser: true },
     ];
+    console.log("Updating with messages:", updatedMessages);
+
     await db.updateChat(chatId, {
       ...chat,
       messages: updatedMessages,
     });
+
+    // Verify the update
+    const verifyChat = await db.getChat(chatId);
+    console.log("After user message update - Chat state:", verifyChat);
 
     messageInput.style.height = "auto";
     typingIndicator.style.display = "block";
@@ -186,15 +198,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         ...(chat.messages || []),
         { text: accumulatedText, isUser: false },
       ];
+      console.log("Updating with AI response:", finalMessages);
+
       await db.updateChat(chatId, {
         messages: finalMessages,
-        // Update title if it's still "New Chat"
         ...(chat.title === "New Chat"
           ? {
               title: message.slice(0, 50) + (message.length > 50 ? "..." : ""),
             }
           : {}),
       });
+
+      // Final verification
+      const finalVerify = await db.getChat(chatId);
+      console.log("Final chat state:", finalVerify);
     } catch (error) {
       console.error("Error sending message:", error);
       addMessage(`Error: ${error.message}`, false);
