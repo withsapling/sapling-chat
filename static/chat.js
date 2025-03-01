@@ -59,12 +59,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   const updateInputState = () => {
     messageInput.style.height = "auto";
     messageInput.style.height = messageInput.scrollHeight + "px";
-    sendButton.disabled = !messageInput.value.trim();
+    const hasValue = messageInput.value.trim().length > 0;
+    console.log("Input value:", messageInput.value, "Has value:", hasValue);
+    sendButton.disabled = !hasValue;
   };
 
-  // Add both input and keyup event listeners for better mobile support
+  // Add input event listener for all devices
   messageInput.addEventListener("input", updateInputState);
-  messageInput.addEventListener("keyup", updateInputState);
 
   // Function to add a message to the chat
   function addMessage(text, isUser = false) {
