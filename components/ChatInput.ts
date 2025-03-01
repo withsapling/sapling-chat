@@ -27,6 +27,7 @@ export function ChatInput() {
 
           <div class="flex items-center gap-2">
             ${ModelSelector()}
+
             <button
               id="send-button"
               type="button"

@@ -24,6 +24,13 @@ export function BaseHead({
         background-color: var(--color-primary);
         color: var(--color-on-primary);
       }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --color-primary: #fff;
+          --color-on-primary: #000;
+          --color-secondary: #000;
+        }
+      }
     </style>
   `;
 }

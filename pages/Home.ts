@@ -105,7 +105,7 @@ export async function Home() {
               ></div>
               <div
                 aria-hidden="true"
-                class="flex-shrink-0 mt-2 bg-gray-100 border border-gray-200 rounded-full p-2"
+                class="flex-shrink-0 mt-2 bg-gray-100 @dark:bg-gray-900 border border-gray-200 @dark:border-gray-800 rounded-full p-2"
               ></div>
             </template>
             <div class="flex items-center space-x-2">
@@ -125,7 +125,7 @@ export async function Home() {
 
           <div
             id="chat-messages"
-            class="flex-1 overflow-y-auto space-y-4 mb-20"
+            class="flex-1 overflow-y-auto space-y-4 mb-22"
           >
             <div class="max-w-screen-md mx-auto space-y-4">
               <div id="typing-indicator" class="hidden">
