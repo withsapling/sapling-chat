@@ -341,4 +341,42 @@ document.addEventListener("DOMContentLoaded", async () => {
       fileInput.click();
     }
   });
+
+  // Handle paste events for images
+  messageInput.addEventListener("paste", (e) => {
+    e.preventDefault();
+
+    // Get pasted items
+    const items = (e.clipboardData || window.clipboardData).items;
+
+    // Process pasted content
+    for (const item of items) {
+      // Check if item is an image
+      if (item.type.indexOf("image") !== -1) {
+        // Check if we can add more images
+        if (selectedImages.length >= MAX_IMAGES) {
+          break;
+        }
+
+        const file = item.getAsFile();
+        if (file) {
+          selectedImages.push(file);
+          updatePreviews();
+        }
+      } else if (item.type === "text/plain") {
+        // Handle pasted text normally
+        item.getAsString((text) => {
+          const start = messageInput.selectionStart;
+          const end = messageInput.selectionEnd;
+          const currentValue = messageInput.value;
+          messageInput.value =
+            currentValue.substring(0, start) +
+            text +
+            currentValue.substring(end);
+          messageInput.selectionStart = messageInput.selectionEnd =
+            start + text.length;
+        });
+      }
+    }
+  });
 });
