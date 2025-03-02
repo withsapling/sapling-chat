@@ -50,6 +50,47 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Initialize model selector
   const modelSelector = new ModelSelector();
 
+  // Get scroll to bottom button
+  const scrollButton = document.getElementById("scroll-to-bottom");
+
+  // Function to check if user has scrolled up
+  function checkScroll() {
+    const scrolledFromBottom =
+      document.documentElement.scrollHeight -
+      window.scrollY -
+      window.innerHeight;
+    console.log("Scroll from bottom:", scrolledFromBottom, {
+      scrollHeight: document.documentElement.scrollHeight,
+      scrollY: window.scrollY,
+      innerHeight: window.innerHeight,
+    });
+
+    // Consider anything within 10px of the bottom as "at bottom"
+    const isAtBottom = scrolledFromBottom <= 100;
+    scrollButton.style.display = isAtBottom ? "none" : "flex";
+  }
+
+  // Add scroll event listener
+  window.addEventListener("scroll", () => {
+    requestAnimationFrame(checkScroll);
+  });
+  window.addEventListener("resize", () => {
+    requestAnimationFrame(checkScroll);
+  });
+  checkScroll();
+
+  // Scroll to bottom function
+  function scrollToBottom() {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+    });
+  }
+
+  // Add click event listener to scroll button
+  if (scrollButton) {
+    scrollButton.addEventListener("click", scrollToBottom);
+  }
+
   if (
     !chatMessages ||
     !messageInput ||
@@ -257,6 +298,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       // Clear chat history from localStorage
       localStorage.removeItem("chat_history");
+
+      // Hide scroll to bottom button
+      scrollButton.style.display = "none";
 
       console.log("Chat reset successfully");
     } catch (error) {

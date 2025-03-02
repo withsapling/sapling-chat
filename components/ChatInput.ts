@@ -13,6 +13,15 @@ export function ChatInput() {
         </button>
       </div>
     </template>
+
+    <button
+      id="scroll-to-bottom"
+      class="fixed bottom-[136px] left-1/2 -translate-x-1/2 bg-gray-800/90 backdrop-blur-sm @dark:bg-gray-200/90 text-white @dark:text-black rounded-full pl-3 pr-2 py-2 shadow-lg hover:bg-gray-700 @dark:hover:bg-gray-300 z-50 hidden flex items-center gap-2"
+    >
+      <span class="text-sm">Scroll to bottom</span>
+      <iconify-icon icon="mdi:arrow-down" width="18" height="18"></iconify-icon>
+    </button>
+
     <div class="flex-none bg-background px-4 md:px-0 pb-4">
       <div
         class="flex flex-col rounded-2xl border border-gray-200 @dark:border-gray-800 shadow-sm @dark:shadow-gray-800"
