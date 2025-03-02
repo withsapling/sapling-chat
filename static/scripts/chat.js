@@ -381,4 +381,35 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     }
   });
+
+  // Handle drag and drop events for images
+  messageInput.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    messageInput.classList.add("drag-over");
+  });
+
+  messageInput.addEventListener("dragleave", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    messageInput.classList.remove("drag-over");
+  });
+
+  messageInput.addEventListener("drop", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    messageInput.classList.remove("drag-over");
+
+    const files = Array.from(e.dataTransfer.files);
+    const remainingSlots = MAX_IMAGES - selectedImages.length;
+
+    if (remainingSlots > 0) {
+      const newImages = files
+        .filter((file) => file.type.startsWith("image/"))
+        .slice(0, remainingSlots);
+
+      selectedImages = [...selectedImages, ...newImages];
+      updatePreviews();
+    }
+  });
 });

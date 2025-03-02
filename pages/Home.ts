@@ -68,6 +68,15 @@ export async function Home() {
           background-color: transparent;
           padding-left: 0;
         }
+
+        #message-input.drag-over {
+          border: 1px dotted var(--color-primary, #000);
+          background-color: hsla(0, 0%, 0%, 0.05);
+          @media (prefers-color-scheme: dark) {
+            background-color: hsla(0, 0%, 100%, 0.1);
+          }
+        }
+
         #chat-container {
           display: none;
         }
