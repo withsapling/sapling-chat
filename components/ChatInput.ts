@@ -13,7 +13,7 @@ export function ChatInput() {
         </button>
       </div>
     </template>
-    <div class="flex-none bg-white @dark:bg-black px-4 md:px-0 pb-4">
+    <div class="flex-none bg-background px-4 md:px-0 pb-4">
       <div
         class="flex flex-col rounded-2xl border border-gray-200 @dark:border-gray-800 shadow-sm @dark:shadow-gray-800"
       >
@@ -66,7 +66,7 @@ export function ChatInput() {
             <button
               id="send-button"
               type="button"
-              class="bg-black @dark:bg-white text-white @dark:text-black p-2 rounded-full flex items-center justify-center hover:bg-gray-800 @dark:hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-black @dark:disabled:hover:bg-white"
+              class="bg-primary text-on-primary p-2 rounded-full flex items-center justify-center hover:bg-gray-800 @dark:hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-black @dark:disabled:hover:bg-white"
             >
               <iconify-icon
                 icon="material-symbols:arrow-upward-rounded"

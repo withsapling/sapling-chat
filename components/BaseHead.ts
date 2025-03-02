@@ -16,8 +16,12 @@ export function BaseHead({
     ></script>
     <style>
       :root {
+        --color-background: #fafafa;
+        --color-on-background: #000;
         --color-primary: #000;
         --color-on-primary: #fff;
+        --color-surface: #fff;
+        --color-on-surface: #000;
         --color-secondary: #fff;
       }
       ::selection {
@@ -26,8 +30,12 @@ export function BaseHead({
       }
       @media (prefers-color-scheme: dark) {
         :root {
+          --color-background: #1d1e20;
+          --color-on-background: #fff;
           --color-primary: #fff;
           --color-on-primary: #000;
+          --color-surface: #303030;
+          --color-on-surface: #fff;
           --color-secondary: #000;
         }
       }

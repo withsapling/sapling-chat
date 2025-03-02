@@ -141,7 +141,7 @@ export async function Home() {
             <div class="flex items-center space-x-2">
               <button
                 id="reset-chat"
-                class="inline-flex items-center px-3 py-2 border border-gray-300 @dark:border-gray-700 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 @dark:text-gray-200 bg-white @dark:bg-black hover:bg-gray-50 @dark:hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black @dark:focus:ring-white"
+                class="inline-flex items-center px-3 py-2 bg-background border border-gray-300 @dark:border-gray-700 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 @dark:text-gray-200  hover:bg-gray-50 @dark:hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black @dark:focus:ring-white"
               >
                 <iconify-icon
                   icon="mdi:refresh"
@@ -171,7 +171,7 @@ export async function Home() {
           </div>
 
           <div
-            class="fixed bottom-0 left-0 right-0 bg-white @dark:bg-black border-gray-200 @dark:border-gray-800"
+            class="fixed bottom-0 left-0 right-0 bg-background border-gray-200 @dark:border-gray-800"
           >
             <div class="max-w-screen-md mx-auto">${ChatInput()}</div>
           </div>

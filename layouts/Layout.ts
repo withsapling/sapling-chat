@@ -22,7 +22,7 @@ export default async function Layout(props: BaseLayoutProps) {
       description: props.description,
     })}
     ${await props.head}`,
-    bodyClass: `font-sans @dark:bg-black @dark:text-white ${
+    bodyClass: `font-sans bg-background text-on-background ${
       props.bodyClass ?? ``
     }`,
     children: html`${props.children} `,
