@@ -36,19 +36,29 @@ export function ChatInput() {
         <div
           class="flex justify-between px-4 py-2 border-t border-gray-100 @dark:border-gray-800"
         >
-          <button
-            id="attach-image"
-            class="bg-transparent border-none cursor-pointer text-gray-400 hover:text-gray-600 @dark:hover:text-gray-300 flex items-center"
-          >
-            <input
-              type="file"
-              id="file-input"
-              class="hidden"
-              accept="image/*"
-              multiple
-            />
-            <iconify-icon icon="mdi:paperclip" width="20"></iconify-icon>
-          </button>
+          <div class="flex items-center gap-2">
+            <button
+              id="attach-image"
+              class="bg-transparent border-none cursor-pointer text-gray-400 hover:text-gray-600 @dark:hover:text-gray-300 flex items-center"
+            >
+              <input
+                type="file"
+                id="file-input"
+                class="hidden"
+                accept="image/*"
+                multiple
+              />
+              <iconify-icon icon="mdi:paperclip" width="20"></iconify-icon>
+            </button>
+
+            <button
+              id="think-toggle"
+              class="inline-flex items-center gap-1 pl-2 pr-3 py-1 rounded-full text-sm text-gray-500 hover:text-gray-700 @dark:hover:text-gray-300 border border-gray-200 @dark:border-gray-800"
+            >
+              <iconify-icon icon="lucide:lightbulb" width="16"></iconify-icon>
+              <span>Think</span>
+            </button>
+          </div>
 
           <div class="flex items-center gap-2">
             ${ModelSelector()}

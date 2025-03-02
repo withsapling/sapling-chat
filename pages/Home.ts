@@ -93,9 +93,19 @@ export async function Home() {
           display: block;
         }
 
+        #think-toggle.active {
+          background-color: black;
+          color: white;
+        }
+
         @media (prefers-color-scheme: dark) {
           .user-message {
             background-color: hsla(0, 0%, 100%, 0.25);
+          }
+
+          #think-toggle.active {
+            background-color: white;
+            color: black;
           }
         }
       </style>

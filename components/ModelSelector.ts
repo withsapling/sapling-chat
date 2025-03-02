@@ -1,5 +1,8 @@
 import { html } from "@sapling/sapling";
 
+export const THINKING_MODEL_ID = "gemini-2.0-flash-thinking-exp-01-21";
+export const DEFAULT_MODEL_ID = "gemini-2.0-flash-lite";
+
 export const AVAILABLE_MODELS = [
   {
     id: "gemini-2.0-flash",
@@ -18,7 +21,7 @@ export const AVAILABLE_MODELS = [
   },
   {
     id: "gemini-2.0-flash-thinking-exp-01-21",
-    name: "Gemini 2.0 Flash Thinking Exp",
+    name: "Gemini 2.0 Flash Thinking",
     description: "Reasoning and planning for complex tasks",
   },
 ];

@@ -3,11 +3,14 @@ export class ModelSelector {
     this.modelSelectorButton = document.getElementById("model-selector-button");
     this.modelDropdown = document.getElementById("model-dropdown");
     this.selectedModelName = document.getElementById("selected-model-name");
+    this.thinkToggle = document.getElementById("think-toggle");
+    this.previousModel = null;
 
     if (
       !this.modelSelectorButton ||
       !this.modelDropdown ||
-      !this.selectedModelName
+      !this.selectedModelName ||
+      !this.thinkToggle
     ) {
       console.error("Required model selector elements not found");
       return;
@@ -20,6 +23,25 @@ export class ModelSelector {
     // Initialize with stored or default model
     const currentModel = this.getCurrentModel();
     this.updateSelectedModel(currentModel);
+
+    // Handle think toggle
+    this.thinkToggle.addEventListener("click", () => {
+      const isThinking = this.thinkToggle.classList.toggle("active");
+      this.thinkToggle.classList.toggle("bg-black", isThinking);
+      this.thinkToggle.classList.toggle("@dark:bg-white", isThinking);
+      this.thinkToggle.classList.toggle("text-white", isThinking);
+      this.thinkToggle.classList.toggle("@dark:text-black", isThinking);
+
+      if (isThinking) {
+        this.previousModel = this.getCurrentModel();
+        this.updateSelectedModel("gemini-2.0-flash-thinking-exp-01-21");
+        this.setCurrentModel("gemini-2.0-flash-thinking-exp-01-21");
+      } else {
+        const modelToRestore = this.previousModel || "gemini-2.0-flash-lite";
+        this.updateSelectedModel(modelToRestore);
+        this.setCurrentModel(modelToRestore);
+      }
+    });
 
     // Handle model selector click
     this.modelSelectorButton.addEventListener("click", (e) => {
