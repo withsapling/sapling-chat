@@ -177,6 +177,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     addMessage(message, imageData, true);
     saveChatHistory(message, true);
     messageInput.style.height = "auto";
+
+    // Clear images immediately after adding to chat
+    const imagesToSend = [...selectedImages]; // Create a copy of the images array
+    selectedImages = [];
+    updatePreviews();
+
     typingIndicator.style.display = "block";
 
     try {
@@ -221,10 +227,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       // Save the model's response to history
       saveChatHistory(accumulatedText, false);
-
-      // Clear images after successful send
-      selectedImages = [];
-      updatePreviews();
     } catch (error) {
       console.error("Error sending message:", error);
       addMessage(`Error: ${error.message}`, [], false);
