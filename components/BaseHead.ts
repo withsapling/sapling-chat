@@ -10,6 +10,7 @@ export function BaseHead({
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:image" content="/social.png" />
     <meta name="theme-color" content="#000" />
+    <link rel="stylesheet" href="/shiki-stream.css" />
     <script
       src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"
       defer

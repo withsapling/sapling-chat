@@ -1,12 +1,27 @@
 {
   "tasks": {
     "start": "deno run -A --watch index.ts",
-    "dev": "ENV=development deno run --env-file -A --watch index.ts"
+    "dev:vite": "deno run -A npm:vite build --watch",
+    "dev:sapling": "ENV=development deno run --env-file -A --watch index.ts",
+    "dev": "deno task dev:vite & deno task dev:sapling",
+    "build": "deno run -A npm:vite build"
   },
   "imports": {
+    "@deno/vite-plugin": "npm:@deno/vite-plugin@^1.0.4",
     "@sapling/sapling": "jsr:@sapling/sapling@^0.5.0",
+    "marked": "npm:marked@^15.0.7",
+    "marked-shiki": "npm:marked-shiki@^1.2.0",
+    "shiki": "npm:shiki@^3.1.0",
+    "shiki-stream": "npm:shiki-stream@^0.1.1",
     "unocss": "npm:unocss@^66.0.0",
-    "@google/generative-ai": "npm:@google/generative-ai@^0.22.0"
+    "@google/generative-ai": "npm:@google/generative-ai@^0.22.0",
+    "vite": "npm:vite@^6.2.0"
+  },
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "deno.ns"
+    ]
   },
   "nodeModulesDir": "auto"
 }
