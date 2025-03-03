@@ -60,11 +60,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.documentElement.scrollHeight -
       window.scrollY -
       window.innerHeight;
-    console.log("Scroll from bottom:", scrolledFromBottom, {
-      scrollHeight: document.documentElement.scrollHeight,
-      scrollY: window.scrollY,
-      innerHeight: window.innerHeight,
-    });
 
     // Consider anything within 10px of the bottom as "at bottom"
     const isAtBottom = scrolledFromBottom <= 100;
