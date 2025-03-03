@@ -1,6 +1,8 @@
 import { html } from "@sapling/sapling";
 import { ModelSelector } from "./ModelSelector.ts";
 import { ScrollToBottom } from "./ScrollToBottom.ts";
+import { VoiceRecorder } from "./VoiceRecorder.ts";
+
 export function ChatInput() {
   return html`
     <template id="image-preview-template">
@@ -70,8 +72,7 @@ export function ChatInput() {
               </div>
 
               <div class="flex items-center gap-2">
-                ${ModelSelector()}
-
+                ${ModelSelector()} ${VoiceRecorder()}
                 <button
                   id="send-button"
                   type="button"

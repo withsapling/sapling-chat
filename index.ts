@@ -1,7 +1,8 @@
 import { Sapling, serveStatic, type Context } from "@sapling/sapling";
 import NotFoundLayout from "./layouts/NotFoundLayout.ts";
 import { Home } from "./pages/Home.ts";
-import { SaplingChat } from "./sapling-chat.ts";
+import { SaplingChat } from "./api/sapling-chat.ts";
+import { geminiFlashTranscribe } from "./api/transcribe.ts";
 
 const site = new Sapling({
   // this will disable caching for static files in development
@@ -54,6 +55,8 @@ async function requireApiKey(c: Context) {
 
   return saplingChat;
 }
+
+site.post("/api/transcribe", (c: Context) => geminiFlashTranscribe(c));
 
 // API endpoint to send a message and get a response
 site.post("/api/chat/message", async (c: Context) => {
