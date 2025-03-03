@@ -42,7 +42,7 @@ export async function renderMarkdown(markdown, options = {}) {
       mangle: false,
     });
 
-    // Configure marked with Shiki
+    // Configure marked with Shiki for code blocks
     await marked.use(
       markedShiki({
         async highlight(code, lang) {

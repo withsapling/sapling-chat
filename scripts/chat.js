@@ -1,10 +1,6 @@
 import { marked } from "marked";
 import { ModelSelector } from "./modelSelector.js";
-import {
-  renderMarkdown,
-  createMarkdownRenderStream,
-} from "./markdownRenderer.js";
-import { createCodeRenderStream } from "./shikiStream.js";
+import { renderMarkdown } from "./markdownRenderer.js";
 
 let selectedImages = [];
 const MAX_IMAGES = 3;

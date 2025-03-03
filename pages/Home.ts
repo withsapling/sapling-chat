@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.ts";
 import { ChatInput } from "../components/ChatInput.ts";
 import { ApiKeyInput } from "../components/ApiKeyInput.ts";
 import { Logo } from "../components/Logo.ts";
+import { Nav } from "../components/Nav.ts";
 
 export async function Home() {
   return await Layout({
@@ -55,6 +56,14 @@ export async function Home() {
 
         .prose > :first-child {
           margin-top: 0;
+        }
+
+        .prose code::before {
+          content: none;
+        }
+
+        .prose code::after {
+          content: none;
         }
 
         .user-message {
@@ -112,46 +121,31 @@ export async function Home() {
       <script type="module" src="/scripts/chat.js"></script>
     `,
     children: html`
-      <div class="max-w-screen-md mx-auto p-4">
+      <div class="max-w-screen-md mx-auto">
+        ${Nav()}
         <div id="api-key-container">${ApiKeyInput()}</div>
 
         <div id="chat-container" class="flex-col min-h-[calc(100dvh-100px)]">
-          <div class="flex justify-between items-center mb-4">
-            <h1 class="text-2xl font-bold">Chat</h1>
-            <template>
-              <div class="prose prose-sm max-w-none"></div>
-            </template>
-            <template id="logo-template">
-              <div
-                class="flex-shrink-0 bg-gray-100 @dark:bg-gray-900 border border-gray-200 @dark:border-gray-800 rounded-full p-2"
-              >
-                ${Logo({ width: 18, height: 18 })}
-              </div>
-            </template>
+          <template>
+            <div class="prose prose-sm max-w-none"></div>
+          </template>
 
-            <template id="message-images-template">
-              <div class="flex gap-2 mb-2">
-                <img
-                  class="h-24 w-24 object-cover rounded-sm"
-                  alt="Attached image"
-                />
-              </div>
-            </template>
-
-            <div class="flex items-center space-x-2">
-              <button
-                id="reset-chat"
-                class="inline-flex items-center px-3 py-2 bg-background border border-gray-300 @dark:border-gray-700 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 @dark:text-gray-200  hover:bg-gray-50 @dark:hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black @dark:focus:ring-white"
-              >
-                <iconify-icon
-                  icon="mdi:refresh"
-                  class="mr-2"
-                  width="16"
-                ></iconify-icon>
-                Reset Chat
-              </button>
+          <template id="logo-template">
+            <div
+              class="flex-shrink-0 bg-gray-100 @dark:bg-gray-900 border border-gray-200 @dark:border-gray-800 rounded-full p-2"
+            >
+              ${Logo({ width: 18, height: 18 })}
             </div>
-          </div>
+          </template>
+
+          <template id="message-images-template">
+            <div class="flex gap-2 mb-2">
+              <img
+                class="h-24 w-24 object-cover rounded-sm"
+                alt="Attached image"
+              />
+            </div>
+          </template>
 
           <div
             id="chat-messages"
