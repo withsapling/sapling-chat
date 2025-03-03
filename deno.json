@@ -9,6 +9,7 @@
   "imports": {
     "@deno/vite-plugin": "npm:@deno/vite-plugin@^1.0.4",
     "@sapling/sapling": "jsr:@sapling/sapling@^0.5.0",
+    "lit": "npm:lit@^3.2.1",
     "marked": "npm:marked@^15.0.7",
     "marked-shiki": "npm:marked-shiki@^1.2.0",
     "shiki": "npm:shiki@^3.1.0",

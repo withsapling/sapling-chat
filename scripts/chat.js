@@ -31,6 +31,8 @@ function loadChatHistory() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+  console.log("DOMContentLoaded");
+
   const chatContainer = document.getElementById("chat-container");
   const apiKeyContainer = document.getElementById("api-key-container");
   const apiKeyForm = document.getElementById("api-key-form");

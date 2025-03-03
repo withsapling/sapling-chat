@@ -119,6 +119,7 @@ export async function Home() {
         }
       </style>
       <script type="module" src="/scripts/chat.js"></script>
+      <script type="module" src="/scripts/copyCode.js"></script>
     `,
     children: html`
       <div class="max-w-screen-md mx-auto">
@@ -149,7 +150,7 @@ export async function Home() {
 
           <div
             id="chat-messages"
-            class="flex-1 overflow-y-auto space-y-4 mb-22"
+            class="flex-1 overflow-y-auto space-y-4 mb-32"
           >
             <div class="max-w-screen-md mx-auto space-y-4">
               <div id="typing-indicator" class="hidden">
@@ -164,11 +165,7 @@ export async function Home() {
             </div>
           </div>
 
-          <div
-            class="fixed bottom-0 left-0 right-0 bg-background border-gray-200 @dark:border-gray-800"
-          >
-            <div class="max-w-screen-md mx-auto">${ChatInput()}</div>
-          </div>
+          ${ChatInput()}
         </div>
       </div>
     `,

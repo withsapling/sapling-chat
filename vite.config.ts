@@ -11,6 +11,7 @@ export default defineConfig({
       input: {
         chat: "./scripts/chat.js",
         modelSelector: "./scripts/modelSelector.js",
+        copyCode: "./scripts/copyCode.js",
       },
       output: {
         entryFileNames: (_) => {

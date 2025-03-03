@@ -50,6 +50,10 @@ export async function renderMarkdown(markdown, options = {}) {
             theme: options.shikiOptions?.theme || "vitesse-dark",
           });
         },
+        container: `<figure class="highlighted-code" style="position: relative;">
+        <copy-code-button></copy-code-button>
+        %s
+        </figure>`,
       })
     );
 
