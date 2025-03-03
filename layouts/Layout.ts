@@ -4,7 +4,6 @@ import {
   type LayoutProps,
 } from "@sapling/sapling";
 import { BaseHead } from "../components/BaseHead.ts";
-import { Nav } from "../components/Nav.ts";
 import { config } from "../uno.config.ts";
 
 export type BaseLayoutProps = LayoutProps & {

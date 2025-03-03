@@ -107,6 +107,19 @@ export async function Home() {
           color: white;
         }
 
+        /* Voice recording styles */
+        #voice-record-button {
+          position: relative;
+        }
+
+        #voice-record-button.recording {
+          background-color: rgb(239 68 68);
+        }
+
+        #voice-record-button.recording:hover {
+          background-color: rgb(220 38 38);
+        }
+
         @media (prefers-color-scheme: dark) {
           .user-message {
             background-color: hsla(0, 0%, 100%, 0.25);

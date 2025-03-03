@@ -32,7 +32,6 @@ export class CopyCodeButton extends LitElement {
         position: absolute;
         top: 0.5rem;
         right: 0.5rem;
-        z-index: 10;
       }
       button {
         display: inline-flex;

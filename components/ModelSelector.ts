@@ -33,7 +33,10 @@ export function ModelSelector() {
         id="model-selector-button"
         class="flex items-start gap-2 cursor-pointer"
       >
-        <span id="selected-model-name" class="text-sm text-gray-500"
+        <span
+          id="selected-model-name"
+          class="text-sm text-gray-500 max-w-[120px] truncate whitespace-nowrap overflow-hidden"
+          title="Gemini 2.0 Flash"
           >Gemini 2.0 Flash</span
         >
         <button

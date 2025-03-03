@@ -24,6 +24,17 @@ export class ModelSelector {
     const currentModel = this.getCurrentModel();
     this.updateSelectedModel(currentModel);
 
+    // Set initial title if not already set by updateSelectedModel
+    if (
+      this.selectedModelName &&
+      !this.selectedModelName.getAttribute("title")
+    ) {
+      this.selectedModelName.setAttribute(
+        "title",
+        this.selectedModelName.textContent
+      );
+    }
+
     // Handle think toggle
     this.thinkToggle.addEventListener("click", () => {
       const isThinking = this.thinkToggle.classList.toggle("active");
@@ -88,8 +99,9 @@ export class ModelSelector {
       const isSelected = button.dataset.modelId === modelId;
       button.dataset.selected = isSelected;
       if (isSelected && this.selectedModelName) {
-        this.selectedModelName.textContent =
-          button.querySelector(".font-medium").textContent;
+        const modelName = button.querySelector(".font-medium").textContent;
+        this.selectedModelName.textContent = modelName;
+        this.selectedModelName.setAttribute("title", modelName);
       }
     });
   }
