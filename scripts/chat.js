@@ -313,8 +313,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           // Update the DOM with the current full rendered state
           contentDiv.innerHTML = renderedHtml;
 
-          // Scroll to the bottom as content is added
-          scrollToBottom();
+          // // Scroll to the bottom as content is added
+          // scrollToBottom();
         },
         close() {
           // Remove the streaming class when done
