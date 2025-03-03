@@ -7,7 +7,7 @@ import { geminiFlashTranscribe } from "./api/transcribe.ts";
 const site = new Sapling({
   // this will disable caching for static files in development
   // it is automatically passed in when you run deno task dev
-  // dev: Deno.env.get("ENV") === "development",
+  dev: Deno.env.get("ENV") === "development",
 });
 
 // Map to store SaplingChat instances for each API key
